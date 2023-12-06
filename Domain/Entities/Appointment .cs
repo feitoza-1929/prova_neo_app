@@ -7,6 +7,10 @@ public class Appointment
 {
     public Guid Id { get; set; }
 
+    [Required(ErrorMessage = "Appointment value field is required")]
+    [MaxLength(5, ErrorMessage = "Appointment value field cannot exceed 5 digits")]
+    public double Value { get; set; }
+
     [Required(ErrorMessage = "Appointment state field is required")]
     public AppointmentStates State { get; set; }
 
