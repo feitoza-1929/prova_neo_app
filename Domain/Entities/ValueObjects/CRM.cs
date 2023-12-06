@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
+namespace Domain.Entities.ValueObjects;
+
 public class CRM
 {
     [Required(ErrorMessage = "CRM UF field is required")]
