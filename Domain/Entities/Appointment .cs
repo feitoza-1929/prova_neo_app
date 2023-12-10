@@ -21,5 +21,52 @@ public class Appointment
     public Doctor Doctor { get; set; }
     public Guid PatientId { get; set; }
     public Patient Patient { get; set; }
+
+    public bool Reschedule(DateTime date, Guid doctorId)
+    {
+        if(IsValidDate(date))
+        {
+            DoctorId = doctorId;
+            ScheduledAt = date;
+            ChangeState(AppointmentStates.RESCHEDULED);
+        }
+
+        return false;
+    }
+
+    public bool Cancel()
+    {
+        if (IsValidState(AppointmentStates.CANCELED))
+        {
+            ChangeState(AppointmentStates.CANCELED);
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool ChangeState(AppointmentStates newState)
+    {
+        if(IsValidState(newState))
+        {
+            State = newState;
+            return true;
+        }
+        return false;
+    }
+
+    public bool IsValidState(AppointmentStates newState) 
+    {
+        if (State > newState)
+            return false;
+
+        if (State.Equals(AppointmentStates.CANCELED) && newState.Equals(AppointmentStates.DONE))
+            return false;
+
+        return true;
+    }
+
+    public bool IsValidDate(DateTime date) => 
+        !(date < DateTime.Now);
 }
 
