@@ -21,7 +21,6 @@ public class ApplicationDbContext : IdentityDbContext<User>
         
         modelBuilder.ApplyConfiguration(new PatientConfiguration());
         modelBuilder.ApplyConfiguration(new DoctorConfiguration());
-        modelBuilder.ApplyConfiguration(new AppointmentConfiguration());
         modelBuilder.ApplyConfiguration(new RoleConfiguration());
     }
 }
