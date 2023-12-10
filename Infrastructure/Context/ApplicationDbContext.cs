@@ -1,11 +1,12 @@
 using Domain.Entities;
-using Infrastructure.Context.ModelsConfiguration;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Infrastructure.Context.Configuration;
 
 namespace Infrastructure.Context;
 
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext<User>
 {
     public DbSet<Patient>? Patients { get; set; }
     public DbSet<Doctor>? Doctors { get; set; }
@@ -16,8 +17,11 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+        
         modelBuilder.ApplyConfiguration(new PatientConfiguration());
         modelBuilder.ApplyConfiguration(new DoctorConfiguration());
         modelBuilder.ApplyConfiguration(new AppointmentConfiguration());
+        modelBuilder.ApplyConfiguration(new RoleConfiguration());
     }
 }
