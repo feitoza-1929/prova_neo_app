@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Configuration;
 using ProvaNeoApp.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,9 +10,17 @@ builder.Services.AddControllers()
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddRouting(opt => opt.LowercaseUrls = true);
+builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddSqlContext(builder.Configuration);
 builder.Services.AddRepositoryManager();
+
+builder.Services.AddServiceManager();
+
+builder.Services.AddAuthentication();
+builder.Services.AddIdentityConfig();
+builder.Services.AddJWT(builder.Configuration);
 
 var app = builder.Build();
 
@@ -25,7 +32,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
