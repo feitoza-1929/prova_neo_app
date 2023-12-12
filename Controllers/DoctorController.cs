@@ -82,7 +82,7 @@ public class DoctorController : ControllerBase
         if (result.IsFailed)
             return BadRequest(result.Errors);
 
-        return Ok(new { result.Value.Id });
+        return Ok(new { Id = result.Value });
     }
 
     /// <summary>
