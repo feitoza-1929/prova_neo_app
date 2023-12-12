@@ -1,5 +1,6 @@
 using AutoMapper;
 using Domain.Entities;
+using Domain.Entities.ValueObjects;
 using Services.Contracts;
 using Shared;
 using Shared.DTOs;
@@ -19,6 +20,9 @@ public class AutoMapper : Profile
         CreateMap<PatientUpdateDto, Patient>();
         CreateMap<PatientCreateDto, Patient>()
             .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(x => DateTime.UtcNow));
+
+        CreateMap<DocumentDto, Document>()
+            .ReverseMap();
 
         CreateMap<Appointment, AppointmentResponseDto>();
         CreateMap<AppointmentUpdateDto, Appointment>();
