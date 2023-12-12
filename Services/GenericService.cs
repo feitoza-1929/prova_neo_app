@@ -42,13 +42,7 @@ public abstract class GenericService<TEntity, TCreateDto, TUpdateDto>
 
     public virtual async Task<Result> DeleteAsync(Guid id)
     {
-        var toDelete = await GetAsync(id);
-
-        if (toDelete.IsFailed)
-            return Result.Fail(toDelete.Errors);
-
-        _repository.Delete(toDelete.Value);
-        await _repository.SaveAsync();
+        await _repository.Delete(id);
         return Result.Ok();
     }
 
