@@ -22,9 +22,18 @@ public static class ServiceExtensions
         services.AddTransient<ISqlConnectionFactory, SqlConnectionFactory>();
     }
     
-    public static void AddSqlContext(this IServiceCollection services, IConfiguration configuration) =>
+    public static void AddSqlContext(this IServiceCollection services, IConfiguration configuration)
+    {
         services.AddDbContext<ApplicationDbContext>(opts =>
-        opts.UseSqlServer(configuration.GetConnectionString("SqlServer")));
+        {
+            opts.UseSqlServer(configuration.GetConnectionString("SqlServer"),
+            opts => opts.EnableRetryOnFailure(
+                maxRetryCount: 10, 
+                maxRetryDelay: TimeSpan.FromSeconds(30), 
+                errorNumbersToAdd: null));
+        });
+    }
+        
     
     public static void AddServices(this IServiceCollection services)
     {
