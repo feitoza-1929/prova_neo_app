@@ -25,7 +25,7 @@ public abstract class GenericService<TEntity, TCreateDto, TUpdateDto>
     }
 
 
-    public virtual async Task<Result<TEntity>> CreateAsync(TCreateDto dto)
+    public virtual async Task<Result<Guid>> CreateAsync(TCreateDto dto)
     {
         var validationResult = await BeforeCreateValidation(dto);
 
@@ -36,8 +36,9 @@ public abstract class GenericService<TEntity, TCreateDto, TUpdateDto>
         await _validator.ValidateAndThrowAsync(toCreate);
         
         _repository.Create(toCreate);
+        await _repository.SaveAsync();
 
-        return Result.Ok();
+        return Result.Ok(toCreate.Id);
     }
 
     public virtual async Task<Result> DeleteAsync(Guid id)
