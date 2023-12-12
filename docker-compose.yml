@@ -1,0 +1,41 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+version: '3.4'
+
+volumes:
+  sqlserver-dbdata:
+  sqlserver-dblog:
+  sqlserver-dbsecrets:
+networks:
+  sqlserver_network:
+
+services:
+  provaneoapp:
+    image: provaneoapp
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 5105:5105
+    networks:
+      - sqlserver_network     
+      
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    restart: always
+    environment:
+      - SA_PASSWORD=1}}Gi{mkNO8Pq_V
+      - ACCEPT_EULA=Y
+      - MSSQL_PID=Express
+    ports:
+      - 1433:1433
+    networks:
+      - sqlserver_network     
+    healthcheck:
+      test: "echo 'exit' | telnet sqlserver 1433"
+      interval: 2s
+      retries: 120
+    volumes:
+      - sqlserver-dbdata:/var/opt/mssql/data
+      - sqlserver-dblog:/var/opt/mssql/log
+      - sqlserver-dbsecrets:/var/opt/mssql/secrets   
+      - ./sqlserver/backup:/var/backups 
