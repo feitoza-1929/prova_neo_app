@@ -74,7 +74,7 @@ public class AppointmentController : ControllerBase
         var result = await _service.CreateAsync(appointmentCreation);
 
         if (result.IsFailed)
-            return BadRequest(result.Errors);
+            return BadRequest(result.Errors.Where(x => true).Select(x => new { x.Message }));
 
         return Ok(new { Id = result.Value });
     }
@@ -106,7 +106,7 @@ public class AppointmentController : ControllerBase
         var result = await _service.UpdateAsync(appointmentUpdate);
 
         if (result.IsFailed)
-            return BadRequest(result.Errors);
+            return BadRequest(result.Errors.Where(x => true).Select(x => new { x.Message }));
 
         return Ok();
     }
@@ -130,7 +130,7 @@ public class AppointmentController : ControllerBase
     {
         var result = await _service.DeleteAsync(id);
         if (result.IsFailed)
-            return BadRequest(result.Errors);
+            return BadRequest(result.Errors.Where(x => true).Select(x => new { x.Message }));
 
         return Ok();
     }

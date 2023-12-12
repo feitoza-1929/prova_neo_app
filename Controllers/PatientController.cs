@@ -1,3 +1,4 @@
+using System.Text.Json;
 using AutoMapper;
 using Domain.Entities;
 using FluentResults;
@@ -44,7 +45,7 @@ public class PatientController : ControllerBase
         var result = await _service.GetAsync(id);
 
         if (result.IsFailed)
-            return BadRequest(result.Errors);
+            return BadRequest(result.Errors.Where(x => true).Select(x => new { x.Message }));
 
         return Ok(_mapper.Map<Patient, PatientResponseDto>(result.Value));
     }
@@ -77,7 +78,7 @@ public class PatientController : ControllerBase
         var result = await _service.CreateAsync(patientCreate);
 
         if (result.IsFailed)
-            return BadRequest(result.Errors);
+            return BadRequest(result.Errors.Where(x => true).Select(x => new { x.Message }));
 
         return Ok(new { Id = result.Value });
     }
@@ -111,7 +112,7 @@ public class PatientController : ControllerBase
         var result = await _service.UpdateAsync(patientUpdate);
 
         if (result.IsFailed)
-            return BadRequest(result.Errors);
+            return BadRequest(result.Errors.Where(x => true).Select(x => new { x.Message }));
 
         return Ok();
     }
@@ -135,7 +136,7 @@ public class PatientController : ControllerBase
     {
         var result = await _service.DeleteAsync(id);
         if (result.IsFailed)
-            return BadRequest(result.Errors);
+            return BadRequest(result.Errors.Where(x => true).Select(x => new { x.Message }));
 
         return Ok();
     }

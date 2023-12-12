@@ -39,7 +39,7 @@ public class  AuthenticationController : ControllerBase
         var result = await _service.CreateUserAsync(userCreate);
         
         if (result.IsFailed)
-            return BadRequest();
+            return BadRequest(result.Errors.Where(x => true).Select(x => new { x.Message }));
 
         return StatusCode(201);
     }

@@ -80,7 +80,7 @@ public class DoctorController : ControllerBase
         var result = await _service.CreateAsync(doctorCreate);
 
         if (result.IsFailed)
-            return BadRequest(result.Errors);
+            return BadRequest(result.Errors.Where(x => true).Select(x => new { x.Message }));
 
         return Ok(new { Id = result.Value });
     }
@@ -117,7 +117,7 @@ public class DoctorController : ControllerBase
         var result = await _service.UpdateAsync(doctorUpdate);
 
         if (result.IsFailed)
-            return BadRequest(result.Errors);
+            return BadRequest(result.Errors.Where(x => true).Select(x => new { x.Message }));
 
         return Ok();
     }
@@ -141,7 +141,7 @@ public class DoctorController : ControllerBase
     {
         var result = await _service.DeleteAsync(id);
         if (result.IsFailed)
-            return BadRequest(result.Errors);
+            return BadRequest(result.Errors.Where(x => true).Select(x => new { x.Message }));
 
         return Ok();
     }
