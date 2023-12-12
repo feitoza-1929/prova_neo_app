@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace Shared.DTOs;
-public record UserRegistrationDto
+public record UserCreateDto
 {
     [Required(ErrorMessage = "User name field is required")]
     public string? UserName { get; init; }

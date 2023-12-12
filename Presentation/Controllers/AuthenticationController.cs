@@ -31,7 +31,7 @@ public class  AuthenticationController : ControllerBase
     /// <response code="201">Usuário criado</response>
     /// <response code="400">Dados Invalidos</response>        
     [HttpPost]
-    public async Task<IActionResult> CreateUser([FromBody] UserRegistrationDto userRegistration)
+    public async Task<IActionResult> CreateUser([FromBody] UserCreateDto userRegistration)
     {
         var result = await _service.AuthenticationService.CreateUserAsync(userRegistration);
         
