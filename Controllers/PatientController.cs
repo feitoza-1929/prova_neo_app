@@ -14,10 +14,10 @@ namespace ProvaNeoApp.Controllers;
 [Route("api/[controller]")]
 public class PatientController : ControllerBase
 {
-    private readonly IServiceManager _service;
+    private readonly IPatientService _service;
     private readonly IMapper _mapper;
 
-    public PatientController(IServiceManager service, IMapper mapper)
+    public PatientController(IPatientService service, IMapper mapper)
     { 
         _service = service;
         _mapper = mapper;
@@ -41,7 +41,7 @@ public class PatientController : ControllerBase
     [Authorize(Roles = "Patient")]
     public async Task<IActionResult> Get(Guid id)
     {
-        var result = await _service.PatientService.GetAsync(id);
+        var result = await _service.GetAsync(id);
 
         if (result.IsFailed)
             return BadRequest(result.Errors);
@@ -74,7 +74,7 @@ public class PatientController : ControllerBase
     [Authorize(Roles = "Patient")]
     public async Task<IActionResult> Create([FromBody] PatientCreateDto patientCreate)
     {
-        var result = await _service.PatientService.CreateAsync(patientCreate);
+        var result = await _service.CreateAsync(patientCreate);
 
         if (result.IsFailed)
             return BadRequest(result.Errors);
@@ -108,7 +108,7 @@ public class PatientController : ControllerBase
     [Authorize(Roles = "Patient")]
     public async Task<IActionResult> Update([FromBody] PatientUpdateDto patientUpdate)
     {
-        var result = await _service.PatientService.UpdateAsync(patientUpdate);
+        var result = await _service.UpdateAsync(patientUpdate);
 
         if (result.IsFailed)
             return BadRequest(result.Errors);
@@ -133,7 +133,7 @@ public class PatientController : ControllerBase
     [Authorize(Roles = "Patient")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var result = await _service.PatientService.DeleteAsync(id);
+        var result = await _service.DeleteAsync(id);
         if (result.IsFailed)
             return BadRequest(result.Errors);
 

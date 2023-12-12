@@ -13,10 +13,10 @@ namespace ProvaNeoApp.Controllers;
 [Route("api/[controller]")]
 public class AppointmentController : ControllerBase
 {
-    private readonly IServiceManager _service;
+    private readonly IAppointmentService _service;
     private readonly IMapper _mapper;
 
-    public AppointmentController(IServiceManager service, IMapper mapper)
+    public AppointmentController(IAppointmentService service, IMapper mapper)
     { 
         _service = service;
         _mapper = mapper;
@@ -40,7 +40,7 @@ public class AppointmentController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Get(Guid id)
     {
-        var result = await _service.AppointmentService.GetAsync(id);
+        var result = await _service.GetAsync(id);
 
         if (result.IsFailed)
             return BadRequest(result.Errors);
@@ -71,7 +71,7 @@ public class AppointmentController : ControllerBase
     [Authorize(Roles = "Patient")]
     public async Task<IActionResult> Create([FromBody] AppointmentCreateDto appointmentCreation)
     {
-        var result = await _service.AppointmentService.CreateAsync(appointmentCreation);
+        var result = await _service.CreateAsync(appointmentCreation);
 
         if (result.IsFailed)
             return BadRequest(result.Errors);
@@ -103,7 +103,7 @@ public class AppointmentController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Update([FromBody] AppointmentUpdateDto appointmentUpdate)
     {
-        var result = await _service.AppointmentService.UpdateAsync(appointmentUpdate);
+        var result = await _service.UpdateAsync(appointmentUpdate);
 
         if (result.IsFailed)
             return BadRequest(result.Errors);
@@ -128,7 +128,7 @@ public class AppointmentController : ControllerBase
     [Authorize(Roles = "Patient")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var result = await _service.AppointmentService.DeleteAsync(id);
+        var result = await _service.DeleteAsync(id);
         if (result.IsFailed)
             return BadRequest(result.Errors);
 
