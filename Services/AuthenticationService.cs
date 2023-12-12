@@ -27,6 +27,7 @@ public class AuthenticationService : IAuthenticationService
 
     public async Task<string> CreateTokenAsync()
     {
+        
         var signingCredentials = GetSigningCredentials();
         var claims = await GetClaims();
         var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
@@ -34,7 +35,7 @@ public class AuthenticationService : IAuthenticationService
         return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
     }
 
-    public async Task<IdentityResult> CreateUserAsync(UserRegistrationDto userRegistration)
+    public async Task<IdentityResult> CreateUserAsync(UserCreateDto userRegistration)
     {
         var user = _mapper.Map<User>(userRegistration);
 
