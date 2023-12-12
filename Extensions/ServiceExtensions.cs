@@ -1,6 +1,8 @@
 using System.Text;
 using Domain.Contracts;
 using Domain.Entities;
+using Domain.Validations;
+using FluentValidation;
 using Infrastructure.Context;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -65,5 +67,12 @@ public static class ServiceExtensions
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["secretKey"]))
             };
         });
+    }
+
+    public static void AddDomainValidators(this IServiceCollection services)
+    {
+        services.AddScoped<IValidator<Appointment>, AppointmentValidator>();
+        services.AddScoped<IValidator<Patient>, PatientValidator>();
+        services.AddScoped<IValidator<Doctor>, DoctorValidator>();
     }
 }
