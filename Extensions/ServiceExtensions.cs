@@ -1,14 +1,11 @@
-using System.Text;
 using Domain.Contracts;
 using Domain.Entities;
 using Domain.Validations;
 using FluentValidation;
 using Infrastructure.Context;
+using Infrastructure.Dapper;
 using Infrastructure.Repositories;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Services;
 using Services.Contracts;
 
@@ -22,6 +19,7 @@ public static class ServiceExtensions
         services.AddTransient<IGenericRepository<Appointment>, GenericRepository<Appointment>>();
         services.AddTransient<IGenericRepository<Doctor>, GenericRepository<Doctor>>();
         services.AddTransient<IGenericRepository<Patient>, GenericRepository<Patient>>();
+        services.AddTransient<ISqlConnectionFactory, SqlConnectionFactory>();
     }
     
     public static void AddSqlContext(this IServiceCollection services, IConfiguration configuration) =>
@@ -33,46 +31,7 @@ public static class ServiceExtensions
         services.AddScoped<IDoctorService, DoctorService>();
         services.AddScoped<IPatientService, PatientService>();
         services.AddScoped<IAppointmentService, AppointmentService>();
-    }
-
-    public static void AddIdentityConfig(this IServiceCollection services) 
-    {
-        var build = services.AddIdentity<User, IdentityRole>(options =>
-        {
-            options.Password.RequireDigit = true;
-            options.Password.RequireLowercase = false;
-            options.Password.RequireUppercase = false;
-            options.Password.RequireNonAlphanumeric = false;
-            options.Password.RequiredLength = 10;
-            options.User.RequireUniqueEmail = false;
-        })
-        .AddEntityFrameworkStores<ApplicationDbContext>()
-        .AddDefaultTokenProviders();
-    }
-
-    public static void AddJWT(this IServiceCollection services, IConfiguration configuration)
-    {
-        var jwtSettings = configuration.GetSection("JwtSettings");
-
-        services.AddAuthentication(options =>
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        })
-        .AddJwtBearer(options => 
-        {
-            options.TokenValidationParameters =
-            new()
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = jwtSettings["validIssuer"],
-                ValidAudience = jwtSettings["validAudience"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["secretKey"]))
-            };
-        });
+        services.AddTransient<IAuthenticationService, AuthenticationService>();
     }
 
     public static void AddDomainValidators(this IServiceCollection services)
