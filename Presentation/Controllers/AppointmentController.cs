@@ -38,7 +38,7 @@ public class AppointmentController : ControllerBase
     /// <response code="400">Dados invalidos</response>        
     [HttpGet("{id}")]
     [Authorize]
-    public async Task<IActionResult> Get([FromHeader] Guid id)
+    public async Task<IActionResult> Get([FromQuery] Guid id)
     {
         var result = await _service.AppointmentService.GetAsync(id);
 
@@ -125,8 +125,8 @@ public class AppointmentController : ControllerBase
     /// <response code="200">Consulta médica deletada</response>
     /// <response code="400">Dados invalidos</response>      
     [HttpDelete("{id}")]
-    [Authorize(Roles = "Doctor")]
-    public async Task<IActionResult> Delete([FromHeader] Guid id)
+    [Authorize(Roles = "Patient")]
+    public async Task<IActionResult> Delete([FromQuery] Guid id)
     {
         var result = await _service.AppointmentService.DeleteAsync(id);
         if (result.IsFailed)

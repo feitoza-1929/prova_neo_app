@@ -39,7 +39,7 @@ public class PatientController : ControllerBase
     /// <response code="400">Dados invalidos</response>        
     [HttpGet("{id}")]
     [Authorize(Roles = "Patient")]
-    public async Task<IActionResult> Get([FromHeader] Guid id)
+    public async Task<IActionResult> Get([FromQuery] Guid id)
     {
         var result = await _service.PatientService.GetAsync(id);
 
@@ -131,7 +131,7 @@ public class PatientController : ControllerBase
     /// <response code="400">Dados invalidos</response>      
     [HttpDelete("{id}")]
     [Authorize(Roles = "Patient")]
-    public async Task<IActionResult> Delete([FromHeader] Guid id)
+    public async Task<IActionResult> Delete([FromQuery] Guid id)
     {
         var result = await _service.PatientService.DeleteAsync(id);
         if (result.IsFailed)
