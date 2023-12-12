@@ -8,18 +8,16 @@ namespace ProvaNeoApp;
 
 public class AutoMapper : Profile
 {
-    public AutoMapper(IServiceManager serviceManager)
+    public AutoMapper()
     {
         CreateMap<Doctor, DoctorResponseDto>();
         CreateMap<DoctorUpdateDto, Doctor>();
         CreateMap<DoctorCreateDto, Doctor>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(x => serviceManager.UserVerifyService.GetUserId()))
             .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(x => DateTime.UtcNow));
 
         CreateMap<Patient, PatientResponseDto>();
         CreateMap<PatientUpdateDto, Patient>();
         CreateMap<PatientCreateDto, Patient>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(x => serviceManager.UserVerifyService.GetUserId()))
             .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(x => DateTime.UtcNow));
 
         CreateMap<Appointment, AppointmentResponseDto>();
