@@ -17,16 +17,22 @@ namespace ProvaNeoApp.Extensions;
 
 public static class ServiceExtensions
 {
-    public static void AddRepositoryManager(this IServiceCollection services) =>
-        services.AddScoped<IRepositoryManager, RepositoryManager>();
+    public static void AddRepositories(this IServiceCollection services)
+    {
+        services.AddTransient<IGenericRepository<Appointment>, GenericRepository<Appointment>>();
+        services.AddTransient<IGenericRepository<Doctor>, GenericRepository<Doctor>>();
+        services.AddTransient<IGenericRepository<Patient>, GenericRepository<Patient>>();
+    }
     
     public static void AddSqlContext(this IServiceCollection services, IConfiguration configuration) =>
         services.AddDbContext<ApplicationDbContext>(opts =>
         opts.UseSqlServer(configuration.GetConnectionString("SqlServer")));
     
-    public static void AddServiceManager(this IServiceCollection services)
+    public static void AddServices(this IServiceCollection services)
     {
-        services.AddScoped<IServiceManager, ServiceManager>();
+        services.AddScoped<IDoctorService, DoctorService>();
+        services.AddScoped<IPatientService, PatientService>();
+        services.AddScoped<IAppointmentService, AppointmentService>();
     }
 
     public static void AddIdentityConfig(this IServiceCollection services) 

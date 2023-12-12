@@ -31,7 +31,6 @@
     <ProjectReference Include="Services\Services.csproj" />
     <ProjectReference Include="Domain.Contracts\Domain.Contracts.csproj" />
     <ProjectReference Include="Tests\Tests.csproj" />
-    <ProjectReference Include="Presentation\Presentation.csproj" />
   </ItemGroup>
 
 </Project>

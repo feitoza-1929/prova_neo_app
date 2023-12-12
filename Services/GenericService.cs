@@ -15,14 +15,12 @@ public abstract class GenericService<TEntity, TCreateDto, TUpdateDto>
 {
     private readonly IMapper _mapper;
     private readonly IGenericRepository<TEntity> _repository;
-    private readonly IRepositoryManager _repositoryManager;
     private readonly IValidator<TEntity> _validator;
 
-    public GenericService(IMapper mapper, IGenericRepository<TEntity> repository, IRepositoryManager repositoryManager, IValidator<TEntity> validator)
+    public GenericService(IMapper mapper, IGenericRepository<TEntity> repository, IValidator<TEntity> validator)
     {
         _mapper = mapper;
         _repository = repository;
-        _repositoryManager = repositoryManager;
         _validator = validator;
     }
 
@@ -50,7 +48,7 @@ public abstract class GenericService<TEntity, TCreateDto, TUpdateDto>
             return Result.Fail(toDelete.Errors);
 
         _repository.Delete(toDelete.Value);
-        await _repositoryManager.SaveAsync();
+        await _repository.SaveAsync();
         return Result.Ok();
     }
 
@@ -86,7 +84,7 @@ public abstract class GenericService<TEntity, TCreateDto, TUpdateDto>
         await _validator.ValidateAndThrowAsync(toUpdate);
 
         _repository.Update(toUpdate);
-        await _repositoryManager.SaveAsync();
+        await _repository.SaveAsync();
 
         return Result.Ok();
     }

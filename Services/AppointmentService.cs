@@ -10,27 +10,8 @@ namespace Services;
 
 public class AppointmentService : GenericService<Appointment, AppointmentCreateDto, AppointmentUpdateDto>, IAppointmentService
 {
-    private readonly IServiceManager _serviceManage;
-
-    public AppointmentService(IMapper mapper, IRepositoryManager repositoryManager, IValidator<Appointment> validator, IServiceManager serviceManager)
-    : base(mapper, repositoryManager.Appointment, repositoryManager, validator)
+    public AppointmentService(IMapper mapper, IGenericRepository<Appointment> repository, IValidator<Appointment> validator)
+    : base(mapper, repository, validator)
     {
-        _serviceManage = serviceManager;
-    }
-
-    protected override Task<Result<Appointment>> BeforeGetValidation(Result<Appointment> entityResult)
-    {
-        if(_serviceManage.UserVerifyService.IsUserValid(entityResult.Value.UserId)) 
-            return base.BeforeGetValidation(entityResult);
-
-        return base.BeforeGetValidation(Result.Fail("Invalid request"));
-    }
-
-    protected override Task<Result<AppointmentUpdateDto>> BeforeUpdateValidation(Result<AppointmentUpdateDto> dtoResult)
-    {
-        if(_serviceManage.UserVerifyService.IsUserValid(dtoResult.Value.UserId))
-            return base.BeforeUpdateValidation(dtoResult);
-
-        return base.BeforeUpdateValidation(Result.Fail("Invalid request"));
     }
 }
