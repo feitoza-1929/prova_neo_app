@@ -25,7 +25,7 @@ Está camada é fundamental para definição das regras de negocio, provendo abs
 A infra utiliza-se dos contratos definidos pelo dominio e os implementa para que camadas superiores, como a de aplicação (`Services`), possam utilizar. Nesta camada implementamos os repositorios (abstrações para acesso a base de dados) e a configuração de nossos modelos, mapeando-os para a base da dados.
 
 ### Serviços/Aplicação
-Esta parte implementa a logica do negocio (`Services`), executando processos requisitados pela camada de apresentação e define interfaces (`Services.Contracts`) para que componentes superiores possam se utilizar
+Esta parte implementa a logica do negocio (`Services`), executando processos requisitados pela camada de apresentação e define interfaces (`Services.Contracts`) para que componentes superiores possam se utilizar. Aqui foram desenvolvidos serviços especializados (`AuthenticateService`) e genericos (`GenericService`), com possibilidade de especialização, que implementam operações comuns (CRUD).
 
 ### Recursos Compartilhados
 
