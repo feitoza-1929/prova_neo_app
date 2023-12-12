@@ -10,7 +10,6 @@ public class PatientValidator : AbstractValidator<Patient>
     {
         RuleFor(x => x.Name).MaximumLength(50).NotNull();
         RuleFor(x => x.Age).ExclusiveBetween(0,120).NotNull();
-        RuleFor(x => x.UserId).NotNull();
         RuleFor(customer => customer.Document).SetValidator(new DocumentValidator());
     }
 }
