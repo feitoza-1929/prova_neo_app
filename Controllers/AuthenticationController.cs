@@ -8,9 +8,12 @@ namespace ProvaNeoApp.Controllers;
 [Route("api/[controller]")]
 public class  AuthenticationController : ControllerBase
 {
-    private readonly IServiceManager _service;
-    public AuthenticationController(IServiceManager service)
-        => _service = service;
+    private readonly IAuthenticationService _service;
+
+    public AuthenticationController(IAuthenticationService service)
+    {
+        _service = service;
+    }
 
     /// <summary>
     /// Cria usuário com determinado niveis de acesso a recursos na API
@@ -31,19 +34,12 @@ public class  AuthenticationController : ControllerBase
     /// <response code="201">Usuário criado</response>
     /// <response code="400">Dados Invalidos</response>        
     [HttpPost]
-    public async Task<IActionResult> CreateUser([FromBody] UserCreateDto userRegistration)
+    public async Task<IActionResult> CreateUser([FromBody] UserCreateDto userCreate)
     {
-        var result = await _service.AuthenticationService.CreateUserAsync(userRegistration);
+        var result = await _service.CreateUserAsync(userCreate);
         
-        if(!result.Succeeded)
-        {
-            result.Errors.All(error =>
-            {
-                ModelState.TryAddModelError(error.Code, error.Description);
-                return true;
-            });
-            return BadRequest(ModelState);
-        }
+        if (result.IsFailed)
+            return BadRequest();
 
         return StatusCode(201);
     }
@@ -68,9 +64,11 @@ public class  AuthenticationController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Authenticate([FromBody] UserAuthenticationDto userAuthentication)
     {
-        if (!await _service.AuthenticationService.ValidateUserAsync(userAuthentication))
-            return Unauthorized();
+        var result = await _service.AuthenticateUserAsync(userAuthentication);
 
-        return Ok(new {Token = await _service.AuthenticationService.CreateTokenAsync()});
+        if (result.IsFailed)
+            return Unauthorized();
+        
+        return Ok(new {Token = result.Value});
     }
 }
