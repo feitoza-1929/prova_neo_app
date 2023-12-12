@@ -37,7 +37,7 @@ public class AuthenticationService : IAuthenticationService
 
     public async Task<IdentityResult> CreateUserAsync(UserCreateDto userRegistration)
     {
-        var user = _mapper.Map<User>(userRegistration);
+        var user = _mapper.Map<UserCreateDto, User>(userRegistration);
 
         var result = await _userManager.CreateAsync(user, userRegistration.Password);
 

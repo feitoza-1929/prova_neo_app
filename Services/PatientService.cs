@@ -32,7 +32,7 @@ public class PatientService : GenericService<Patient, PatientCreateDto, PatientU
 
     protected override Task<Result<Patient>> BeforeGetValidation(Result<Patient> entityResult)
     {
-        if(_serviceManager.UserVerifyService.IsUserValid(entityResult.Value.Id))
+        if(_serviceManager.UserVerifyService.IsUserValid(entityResult.Value.UserId))
             return base.BeforeGetValidation(entityResult);
 
         return base.BeforeGetValidation(Result.Fail("Invalid request"));

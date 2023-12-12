@@ -20,8 +20,7 @@ public class AppointmentService : GenericService<Appointment, AppointmentCreateD
 
     protected override Task<Result<Appointment>> BeforeGetValidation(Result<Appointment> entityResult)
     {
-        if(_serviceManage.UserVerifyService.IsUserValid(entityResult.Value.DoctorId) 
-        || _serviceManage.UserVerifyService.IsUserValid(entityResult.Value.PatientId))
+        if(_serviceManage.UserVerifyService.IsUserValid(entityResult.Value.UserId)) 
             return base.BeforeGetValidation(entityResult);
 
         return base.BeforeGetValidation(Result.Fail("Invalid request"));
