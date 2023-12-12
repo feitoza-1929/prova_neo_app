@@ -19,7 +19,10 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 builder.Services.AddRouting(opt => opt.LowercaseUrls = true);
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddDomainValidators();
 
 builder.Services.AddSqlContext(builder.Configuration);
 builder.Services.AddRepositoryManager();
