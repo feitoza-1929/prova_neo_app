@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using Shared.DTOs;
 
-namespace Presentation.Controllers;
+namespace ProvaNeoApp.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

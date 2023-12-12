@@ -7,7 +7,7 @@ using Services.Contracts;
 using Shared.DTOs;
 
 
-namespace Presentation.Controllers;
+namespace ProvaNeoApp.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -38,7 +38,7 @@ public class AppointmentController : ControllerBase
     /// <response code="400">Dados invalidos</response>        
     [HttpGet("{id}")]
     [Authorize]
-    public async Task<IActionResult> Get([FromQuery] Guid id)
+    public async Task<IActionResult> Get(Guid id)
     {
         var result = await _service.AppointmentService.GetAsync(id);
 
@@ -126,7 +126,7 @@ public class AppointmentController : ControllerBase
     /// <response code="400">Dados invalidos</response>      
     [HttpDelete("{id}")]
     [Authorize(Roles = "Patient")]
-    public async Task<IActionResult> Delete([FromQuery] Guid id)
+    public async Task<IActionResult> Delete(Guid id)
     {
         var result = await _service.AppointmentService.DeleteAsync(id);
         if (result.IsFailed)
