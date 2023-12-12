@@ -32,4 +32,6 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 
     public void Delete(TEntity entity)
         => _context.Set<TEntity>().Remove(entity);
+        
+    public async Task SaveAsync() => await _context.SaveChangesAsync();
 }

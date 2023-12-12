@@ -9,4 +9,5 @@ public interface IGenericRepository<TEntity>
     void Create(TEntity entity);
     void Delete(TEntity entity);
     void Update(TEntity entity);
+    Task SaveAsync();
 }
