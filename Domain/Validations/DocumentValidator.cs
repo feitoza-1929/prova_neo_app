@@ -11,8 +11,7 @@ public class DocumentValidator : AbstractValidator<Document>
     {
         RuleFor(x => x.CPF)
             .Must(CpfValidation.Validate)
-            .WithMessage("{PropertyName} is invalid")
-            .NotNull();
+            .WithMessage("{PropertyName} is invalid");
 
         RuleFor(x => x.RG)
             .Must(RGValidation.Validate)

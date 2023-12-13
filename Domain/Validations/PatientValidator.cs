@@ -8,8 +8,8 @@ public class PatientValidator : AbstractValidator<Patient>
 {
     public PatientValidator()
     {
-        RuleFor(x => x.Name).MaximumLength(50).NotNull();
-        RuleFor(x => x.Age).ExclusiveBetween(0,120).NotNull();
+        RuleFor(x => x.Name).MaximumLength(50);
+        RuleFor(x => x.Age).ExclusiveBetween(0,120);
         RuleFor(customer => customer.Document).SetValidator(new DocumentValidator());
     }
 }

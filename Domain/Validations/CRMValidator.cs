@@ -11,8 +11,7 @@ public class CRMValidator : AbstractValidator<CRM>
     {
         RuleFor(x => x.UF)
             .Must((uf) => uf.Length.Equals(2))
-            .WithMessage("{PropertyName} is invalid")
-            .NotNull();
+            .WithMessage("{PropertyName} is invalid");
 
         RuleFor(x => x.Number)
             .Must((number) => number.ToString().Length.Equals(6))
