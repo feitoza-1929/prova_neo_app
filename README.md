@@ -1,5 +1,5 @@
 # Sobre
-API para criação de consultas médicas.
+Esta API fornece a criação de consultas médicas, juntamente com paciente e médico, atualizando seu estado (MARCADA, REMARCADA, CANCELADA e FINALIZADA)
 
 # Preparando Ambiente
 ## Tecnologias
@@ -35,3 +35,4 @@ Serve como porta de entrada para que o mundo externo possa se comunicar com noss
 
 ### Recursos Compartilhados
 Peças (`Shareds`) que todas as camadas podem precisar, não mantendo dependência com nenhuma delas, sendo um coringa na nossa aplicação.
+Como exemplo de recurso compartilhado temos os DTOs (Data Transfer Objects) que nos ajudam a omitir dados que não queremos mostrar para o cliente (uma API serve para simplificar, então espelhar o seu banco de dados para o cliente não é legal).
